@@ -8,6 +8,8 @@ function _possibleConstructorReturn(self, call) { if (!self) { throw new Referen
 
 function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function, not " + typeof superClass); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, enumerable: false, writable: true, configurable: true } }); if (superClass) Object.setPrototypeOf ? Object.setPrototypeOf(subClass, superClass) : subClass.__proto__ = superClass; }
 
+// stateless functional component
+
 var IndecisionApp = function (_React$Component) {
   _inherits(IndecisionApp, _React$Component);
 
@@ -20,7 +22,6 @@ var IndecisionApp = function (_React$Component) {
     _this.handlePick = _this.handlePick.bind(_this);
     _this.handleAddOption = _this.handleAddOption.bind(_this);
     _this.handleDeleteOption = _this.handleDeleteOption.bind(_this);
-
     _this.state = {
       options: props.options
     };
@@ -36,8 +37,14 @@ var IndecisionApp = function (_React$Component) {
     }
   }, {
     key: 'handleDeleteOption',
-    value: function handleDeleteOption(option) {
-      console.log('hdo', option);
+    value: function handleDeleteOption(optionToRemove) {
+      this.setState(function (prevState) {
+        return {
+          options: prevState.options.filter(function (option) {
+            return optionToRemove !== option;
+          })
+        };
+      });
     }
   }, {
     key: 'handlePick',
@@ -52,7 +59,7 @@ var IndecisionApp = function (_React$Component) {
       if (!option) {
         return 'Enter valid value to add item';
       } else if (this.state.options.indexOf(option) > -1) {
-        return 'Option already exists';
+        return 'This option already exists';
       }
 
       this.setState(function (prevState) {
@@ -61,28 +68,23 @@ var IndecisionApp = function (_React$Component) {
         };
       });
     }
-    // another way to write it as arrow function
-    //   this.setState((prevState) => ({
-    //     options : prevState.options.concat(option) }));
-
   }, {
     key: 'render',
     value: function render() {
-      var title = 'Indecision';
       var subtitle = 'Put your life in the hands of a computer';
 
       return React.createElement(
         'div',
         null,
-        React.createElement(Header, { title: title, subtitle: subtitle }),
+        React.createElement(Header, { subtitle: subtitle }),
         React.createElement(Action, {
           hasOptions: this.state.options.length > 0,
-          handlePick: this.handlePick,
-          handleAddOption: this.handleDeleteOption
+          handlePick: this.handlePick
         }),
         React.createElement(Options, {
           options: this.state.options,
-          handleDeleteOptions: this.handleDeleteOptions
+          handleDeleteOptions: this.handleDeleteOptions,
+          handleDeleteOption: this.handleDeleteOption
         }),
         React.createElement(AddOption, {
           handleAddOption: this.handleAddOption
@@ -113,6 +115,10 @@ var Header = function Header(props) {
       props.subtitle
     )
   );
+};
+
+Header.defaultProps = {
+  title: 'Indecision'
 };
 
 var Action = function Action(props) {
@@ -204,7 +210,6 @@ var AddOption = function (_React$Component2) {
           null,
           this.state.error
         ),
-        React.createElement('br', null),
         React.createElement(
           'form',
           { onSubmit: this.handleAddOption },
@@ -212,7 +217,7 @@ var AddOption = function (_React$Component2) {
           React.createElement(
             'button',
             null,
-            'Add option'
+            'Add Option'
           )
         )
       );
@@ -222,23 +227,13 @@ var AddOption = function (_React$Component2) {
   return AddOption;
 }(React.Component);
 
-var User = function User(props) {
-  return React.createElement(
-    'div',
-    null,
-    React.createElement(
-      'p',
-      null,
-      'Name: ',
-      props.name
-    ),
-    React.createElement(
-      'p',
-      null,
-      'Age: ',
-      props.age
-    )
-  );
-};
+// const User = (props) => {
+//   return (
+//     <div>
+//       <p>Name: {props.name}</p>
+//       <p>Age: {props.age}</p>
+//     </div>
+//   );
+// };
 
 ReactDOM.render(React.createElement(IndecisionApp, null), document.getElementById('app'));
