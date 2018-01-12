@@ -57,7 +57,7 @@ class IndecisionApp extends React.Component {
           handleDeleteOptions={this.handleDeleteOptions}
         />
         <AddOption
-        handleAddOption = {this.handleAddOption}
+          handleAddOption = {this.handleAddOption}
         />
       </div>
     );
@@ -72,7 +72,7 @@ const Header = (props) => {
   return (
     <div>
       <h1>{props.title}</h1>
-      <h2>{props.subtitle}</h2>
+      {props.subtitle && <h2>{props.subtitle}</h2>}
     </div>
   )
 }
@@ -120,18 +120,18 @@ const Option = (props) => {
       </button>
     </div>
   );
-};
+}
 
 
 
 class AddOption extends React.Component {
-  constructor(props){
+  constructor(props) {
     super(props);
     this.handleAddOption = this.handleAddOption.bind(this);
     this.state = {
       error : undefined
     }
-  }
+  };
   handleAddOption(e) {
     e.preventDefault();
 
@@ -154,11 +154,11 @@ class AddOption extends React.Component {
   }
 }
 
-const User = () => {
-  return(
+const User = (props) => {
+  return (
     <div>
-      <p>Name: </p>
-      <p>Age: </p>
+      <p>Name: {props.name}</p>
+      <p>Age: {props.age}</p>
     </div>
   )
 };

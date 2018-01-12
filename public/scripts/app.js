@@ -107,7 +107,7 @@ var Header = function Header(props) {
       null,
       props.title
     ),
-    React.createElement(
+    props.subtitle && React.createElement(
       'h2',
       null,
       props.subtitle
@@ -222,19 +222,21 @@ var AddOption = function (_React$Component2) {
   return AddOption;
 }(React.Component);
 
-var User = function User() {
+var User = function User(props) {
   return React.createElement(
     'div',
     null,
     React.createElement(
       'p',
       null,
-      'Name: '
+      'Name: ',
+      props.name
     ),
     React.createElement(
       'p',
       null,
-      'Age: '
+      'Age: ',
+      props.age
     )
   );
 };
